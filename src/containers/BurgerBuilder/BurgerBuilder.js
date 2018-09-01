@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Aux from '../../hoc/AuxFile';
+import Burger from '../../components/Burger/Burger'
 
 class BurgerBuilder extends Component{
 // eslint-disable-next-line
@@ -9,8 +10,9 @@ class BurgerBuilder extends Component{
 
     render(){
         return (<Aux>
-            <div>Burger View</div>
+            <Burger/>
             <div>Burger Controls</div>
+            
         </Aux>);
     }
 }
