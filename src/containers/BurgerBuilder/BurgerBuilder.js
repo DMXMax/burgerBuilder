@@ -3,14 +3,19 @@ import Aux from '../../hoc/AuxFile';
 import Burger from '../../components/Burger/Burger'
 
 class BurgerBuilder extends Component{
-// eslint-disable-next-line
-    constructor(props){
-        super(props)
+    state={
+        ingredients: {
+            salad: 0,
+            bacon: 0,
+            cheese: 0,
+            meat: 0
+        }
     }
+
 
     render(){
         return (<Aux>
-            <Burger/>
+            <Burger ingredients={this.state.ingredients}/>
             <div>Burger Controls</div>
             
         </Aux>);
