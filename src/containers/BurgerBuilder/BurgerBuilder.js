@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import Aux from '../../hoc/AuxFile';
-import Burger from '../../components/Burger/Burger'
-import BuildControls from '../../components/Burger/BuildControls/BuildControls'
+import Burger from '../../components/Burger/Burger';
+import BuildControls from '../../components/Burger/BuildControls/BuildControls';
+import Modal from '../../components/UI/Modal/Modal';
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 
 const INGREDIENT_PRICES = {
     salad: 0.00,
@@ -9,7 +11,7 @@ const INGREDIENT_PRICES = {
     meat: 2,
     bacon: 1.25,
     sauce: .25
-}
+};
 
 class BurgerBuilder extends Component{
     state={
@@ -66,6 +68,7 @@ class BurgerBuilder extends Component{
             disableInfo[key] = disableInfo[key] <=0;
         }
         return (<Aux>
+            <Modal><OrderSummary ingredients={this.state.ingredients}/></Modal>
             <Burger ingredients={this.state.ingredients}/>
             <BuildControls ingredientAdded = {this.addIngredientHandler}
                 ingredientRemoved={this.removeIngredientHandler}
