@@ -33,8 +33,25 @@ class BurgerBuilder extends Component{
     }
 
     componentDidMount = () =>{
+
       axios.get('/ingredients.json')
-        .then(res=>this.setState({ingredients:res.data}))
+        .then(res=>{
+          let ni = [];
+          let resData = {};
+          for(let x in res.data){
+            let di = {};
+            di["name"]=x;
+            di["start"]=res.data[x].start;
+            di["index"]=res.data[x].index;
+            ni.push(di)
+          }
+          ni.sort((a,b)=>a.index > b.index);
+          
+          for( let x in ni)
+            resData[ni[x].name]=ni[x].start;
+          
+          this.setState({ingredients:resData});
+        })
         .catch(err=>{
           this.setState({error:true})
         });
