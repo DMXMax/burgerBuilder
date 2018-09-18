@@ -58,7 +58,7 @@ class BurgerBuilder extends Component {
   };
 
   updatePurchaseState = ingredients => {
-    console.log(ingredients);
+    //console.log(ingredients);
     /*const sum = Object.keys(ingredients)
       .map(key => {
         return ingredients[key];
@@ -76,7 +76,7 @@ class BurgerBuilder extends Component {
         price: summary["price"]+(INGREDIENT_PRICES[it[0]]*it[1])}
       }, result);
 
-    console.log("MAP ", summary);
+//    console.log("MAP ", summary);
     this.setState({ purchasable: summary["count"] > 0, totalPrice:summary["price"] });
   };
 
@@ -139,6 +139,7 @@ class BurgerBuilder extends Component {
           encodeURIComponent(this.state.ingredients[i])
       );
     }
+    queryParams.push('price='+this.state.totalPrice);
     this.props.history.push({
       pathname: "/checkout",
       search: '?'+queryParams.join('&'),
