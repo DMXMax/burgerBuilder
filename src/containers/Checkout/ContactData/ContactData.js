@@ -52,8 +52,8 @@ class ContactData extends Component{
         elementType: 'select',
         elementConfig: {
           options:[
-            {value: 'fastest', displayValue: 'Fast'},
-            {value: 'cheapest', displayValue: 'Cheap'}
+            {value: 'fast', displayValue: 'Fast'},
+            {value: 'cheap', displayValue: 'Cheap'}
           ]
         },
         value: '',
@@ -89,6 +89,24 @@ class ContactData extends Component{
         
   }
 
+  inputChangedHandler(event, id){
+    console.log
+    const updateFormData = {
+      ...this.state.orderForm
+    };
+
+    const updatedItemData = {
+      ...updateFormData[id]
+    };
+  
+    updatedItemData.value = event.target.value;
+
+    updateFormData[id] = updatedItemData;
+
+    this.setState({orderForm:updateFormData});
+
+  }
+
   render(){
     let form  = (null);
     const formElementsArray = [];
@@ -109,6 +127,7 @@ class ContactData extends Component{
             elementType={formElement.config.elementType}
             elementConfig={formElement.config.elementConfig}
             value={formElement.config.value}
+            changed={(event)=>this.inputChangedHandler(event, formElement.id)}
           />
         ))}
         {/*<Input elementType="..." elementConfig ="..." value="...">
