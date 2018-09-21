@@ -87,9 +87,11 @@ class ContactData extends Component{
           placeholder:'Pick your Delivery Method',
         },
         value: 'fast',
+        valid: true,
       },
     },
     loading:false,
+    formIsValid: false,
   }
 
   orderHandler = (event) =>{
@@ -117,15 +119,17 @@ class ContactData extends Component{
   checkValidity(value, rules)
   {
     let isValid = true;
-
-    if(rules.required){
-      isValid = isValid && (value.trim() !== '');
-    }
-    if( rules.minLength){
-      isValid = isValid && (value.trim().length >= rules.minLength);
-    }
-    if( rules.maxLength){
-      isValid = isValid && (value.trim().length <= rules.maxLength);
+    if(rules)
+    {
+      if(rules.required){
+        isValid = isValid && (value.trim() !== '');
+      }
+      if( rules.minLength){
+        isValid = isValid && (value.trim().length >= rules.minLength);
+      }
+      if( rules.maxLength){
+        isValid = isValid && (value.trim().length <= rules.maxLength);
+      }
     }
     return isValid;
 
@@ -145,7 +149,12 @@ class ContactData extends Component{
     updatedItemData.touched = true;
     console.log(updatedItemData);
     updateFormData[id] = updatedItemData;
-    this.setState({orderForm:updateFormData});
+    
+    let formIsValid = true;
+    for(let item in updateFormData){
+      formIsValid = updateFormData[item].valid && formIsValid;
+    }
+    this.setState({orderForm:updateFormData, formIsValid});
   }
 
   render(){
@@ -178,7 +187,7 @@ class ContactData extends Component{
         <Input inputtype="input" type='email' name='email' placeholder='Your E-mail' />
         <Input inputtype="input" type='text' name='street' placeholder='Street' />
         <Input inputtype="input" type='text' name='postalCode' placeholder='Zip Code' />*/}
-        <Button  btnType="Success">MAKE IT SO</Button>
+        <Button disabled={!this.state.formIsValid} btnType="Success">MAKE IT SO</Button>
         {/*<Button btnType="Danger">NO, I REFUSE</Button>*/}
       </form>
       );
