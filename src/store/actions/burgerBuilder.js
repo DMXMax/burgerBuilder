@@ -46,10 +46,11 @@ export const initIngredients = ()=>{
 
         for (let x in ni) resData[ni[x].name] = ni[x].start;
 
-        return dispatch(setIngredients({ ingredients: resData }));
+        return dispatch(setIngredients(resData));
       })
       .catch(err => {
-        //this.setState({ error: true });
+        console.log(err);
+        return dispatch(fetchIngredientsFailed());        //this.setState({ error: true });
       });
   };
 };

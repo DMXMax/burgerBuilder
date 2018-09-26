@@ -8,9 +8,10 @@ const INGREDIENT_PRICES = {
     sauce: 0.25
 };
 
+const basePrice = 4.00;
+
 const initialState = {
-    totalPrice: 4,
-    purchasable: false,
+    totalPrice: basePrice,
     count:0,
     ingredients: null,
     error: false,
@@ -20,42 +21,75 @@ const reducer = (state = initialState, action) => {
 
     switch (action.type) {
         case actionType.INGREDIENT_ADD:
-        console.log("STATE", state.count)
+        let ingredients = {...state.ingredients,
+          [action.ingredient]: state.ingredients[action.ingredient]+1};
+
+        let purchVals = updatePurchaseState(ingredients);
+
             state = {
                 ...state,
-                ingredients: {
-                    ...state.ingredients,
-                    [action.ingredient]: state.ingredients[action.ingredient] + 1
-                },
-                totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredient],
-                count: state.count + 1,
-                purchasable: true,
+                ingredients,
+                totalPrice: purchVals.totalPrice,
+                count: purchVals.count,
             };
 
             console.log(state);
             break;
         case actionType.INGREDIENT_REMOVE:
-            if (state.ingredients[action.ingredient] > 0) {
-                state = {
-                    ...state,
-                    ingredients: {
-                        ...state.ingredients,
-                        [action.ingredient]: state.ingredients[action.ingredient] - 1,
-                    },
+          ingredients = {...state.ingredients,
+          [action.ingredient]: Math.max(state.ingredients[action.ingredient]-1,0)};
+          purchVals = updatePurchaseState(ingredients);
 
-                    totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredient],
-                    count: state.count -1,    
-                    purchasable: state.count >1,
+          state = {
+              ...state,
+              ingredients,
 
-                };
-            }
+              totalPrice:purchVals.totalPrice, 
+              count: purchVals.count,    
+
+          };
+            
            
             break;
-        default:
+      case actionType.INGREDIENTS_SET:
+        purchVals = updatePurchaseState(action.ingredients);
+        state = {
+          ...state, 
+          ingredients:action.ingredients,
+          totalPrice:purchVals.totalPrice,
+          count: purchVals.count,
+          error:false,
+        };
+        console.log("STATEYSTATE", state);
+        break;
+      case actionType.FETCH_INGREDIENTS_FAILED:
+        state = {...state, error:true};
+        break;
+      default:
     }
     return state;
 };
 
 
+const  updatePurchaseState = ingredients => {
+    /*const sum = Object.keys(ingredients)
+      .map(key => {
+        return ingredients[key];
+      })
+      .reduce((sum, el) => sum + el, 0);*/
+      
+    let result = {count:0, price:basePrice};
+
+    const summary = Object.keys(ingredients)
+      .map(key => {
+        return [key,ingredients[key]];
+      })
+      .reduce((summary,it)=>{ return {
+        count: summary["count"]+it[1], 
+        price: summary["price"]+(INGREDIENT_PRICES[it[0]]*it[1])}
+      }, result);
+
+    return ({ count: summary["count"], totalPrice:summary["price"] });
+  };
 
 export default reducer;

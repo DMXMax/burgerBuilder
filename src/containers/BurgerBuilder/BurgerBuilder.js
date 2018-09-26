@@ -14,7 +14,6 @@ import axios from "../../axios-orders";
 class BurgerBuilder extends Component {
   state = {
    // totalPrice: 4.0,
-    purchasable: false,
     purchasing: false,
     loading: false,
     error: false
@@ -47,6 +46,7 @@ class BurgerBuilder extends Component {
         this.setState({ error: true });
       });*/
       //this.updatePurchaseState(this.props.ings);
+    this.props.onInitIngredients();
   };
 
   updatePurchaseState = ingredients => {
@@ -123,7 +123,7 @@ class BurgerBuilder extends Component {
             ingredientAdded={this.props.onIngredientAdded}
             ingredientRemoved={this.props.onIngredientRemoved}
             disabled={disableInfo}
-            purchasable={this.props.purchasable}
+            purchasable={this.props.count >0}
             price={this.props.totalPrice}
             ordered={this.purchaseHandler}
           />
@@ -138,7 +138,7 @@ class BurgerBuilder extends Component {
         />
       );
     } else {
-      burger = this.state.error ? <p>Death, be not proud.</p> : <Spinner />;
+      burger = this.props.error ? <p>Death, be not proud.</p> : <Spinner />;
     }
 
     if (this.state.loading) {
@@ -164,7 +164,8 @@ const mapDispatchToProps=dispatch=>{
   return {
 
     onIngredientAdded: ingredient=>dispatch(burgerBuilderActions.addIngredient(ingredient)),   
-    onIngredientRemoved: ingredient=>dispatch(burgerBuilderActions.removeIngredient(ingredient))
+    onIngredientRemoved: ingredient=>dispatch(burgerBuilderActions.removeIngredient(ingredient)),
+    onInitIngredients: ()=>dispatch(burgerBuilderActions.initIngredients())
 
   };
 
@@ -175,8 +176,8 @@ const mapStateToProps = state=>{
   return {
     ings: state.ingredients,
     totalPrice: state.totalPrice,
-    purchasable:state.purchasable,
     count: state.count,
+    error: state.error,
   };
 
 };
