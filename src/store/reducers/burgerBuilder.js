@@ -12,13 +12,8 @@ const initialState = {
     totalPrice: 4,
     purchasable: false,
     count:0,
-    ingredients: {
-        salad: 0,
-        bacon: 0,
-        cheese: 0,
-        meat: 0,
-        sauce: 0,
-    },
+    ingredients: null,
+    error: false,
 };
 
 const reducer = (state = initialState, action) => {

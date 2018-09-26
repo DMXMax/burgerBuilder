@@ -1,2 +1,6 @@
 export const INGREDIENT_ADD = 'ING_A';
 export const INGREDIENT_REMOVE = 'ING_R';
+export const INGREDIENTS_SET = 'ING_SET';
+export const FETCH_INGREDIENTS_FAILED = 'FETCH_INGREDIENTS_FAILED';
+
+

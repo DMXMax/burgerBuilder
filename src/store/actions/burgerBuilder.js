@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import axios from "../../axios-orders";
 
 export const addIngredient = (ingredient)=>{
   return {
@@ -13,3 +14,42 @@ export const removeIngredient = (ingredient)=>{
     ingredient
   }
 }
+
+export const fetchIngredientsFailed=()=>{
+  return {
+    type: actionTypes.FETCH_INGREDIENTS_FAILED,
+  }
+
+}
+export const setIngredients = (ingredients)=>{
+  return {
+      type:actionTypes.INGREDIENTS_SET,
+      ingredients,
+  };
+};
+
+export const initIngredients = ()=>{
+  return dispatch =>{
+      axios    
+      .get("/ingredients.json")
+      .then(res => {
+        let ni = [];
+        let resData = {};
+        for (let x in res.data) {
+          let di = {};
+          di["name"] = x;
+          di["start"] = res.data[x].start;
+          di["index"] = res.data[x].index;
+          ni.push(di);
+        }
+        ni.sort((a, b) => a.index > b.index);
+
+        for (let x in ni) resData[ni[x].name] = ni[x].start;
+
+        return dispatch(setIngredients({ ingredients: resData }));
+      })
+      .catch(err => {
+        //this.setState({ error: true });
+      });
+  };
+};
