@@ -14,27 +14,10 @@ class Orders extends Component{
 
   componentDidMount(){
     this.props.onFetchOrders();
-   /* axios.get('/orders.json')
-      .then(res => {
-        console.log("Orders", res.data);
-        let fetchOrders = [];
-        for(let key in res.data)
-        {
-          fetchOrders.push({...res.data[key], id:key});
-        }
-
-        this.setState({orders: fetchOrders});
-      })
-      .catch(err => {
-        console.log(err);
-      })
-      .finally(()=>this.setState({loading:false}));*/
   }
   render(){
-    if( this.props.loading === true )
-      return (<Spinner/>)
-    else
-      return (
+    return this.props.loading === true ? (<Spinner/>) :
+      (
         <div>
         {this.props.orders.map(order=>(<Order key={order.id} 
           price={parseFloat(order.price)} ingredients={order.ingredients}/>))}
