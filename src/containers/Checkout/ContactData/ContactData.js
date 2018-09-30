@@ -20,8 +20,8 @@ class ContactData extends Component{
         value: '',
         validation: { 
           required:true,
-          minLength: 5,
-          maxLength: 10,
+          minLength: 3,
+          maxLength: 30,
         },
         valid:false,
         touched: false,
@@ -110,7 +110,7 @@ class ContactData extends Component{
         orderData: formData,
       }
 
-    this.props.orderBurger(order);
+    this.props.orderBurger(order,this.props.token);
 /*       axios.post('/orders.json',data)
         .then(response => console.log(response))
         .catch(error=> console.log("Error: ", error))
@@ -210,12 +210,13 @@ const mapStateToProps=state =>{
     ingredients: state.burgerbuilder.ingredients,
     price: state.burgerbuilder.totalPrice,
     loading: state.order.loading,
+    token: state.auth.token,
   }
 };
 
 const mapDispatchToProps= dispatch =>{
   return {
-    orderBurger:(orderData)=>dispatch(actions.purchaseBurger(orderData)) 
+    orderBurger:(orderData,token)=>dispatch(actions.purchaseBurger(orderData,token)) 
   };
 }
 
