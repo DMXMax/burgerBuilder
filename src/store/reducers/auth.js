@@ -30,7 +30,6 @@ const authLogout = (state)=> updateObject(state,{
 });
 
 const setAuthRedirect = (state, action)=>{
-    console.log("UPDATE PATH", action.path);
     return updateObject(state,{authRedirectPath:action.path,
 })};
 

@@ -113,8 +113,6 @@ class ContactData extends Component{
 
     this.props.orderBurger(order,this.props.token, this.props.userId);
 /*       axios.post('/orders.json',data)
-        .then(response => console.log(response))
-        .catch(error=> console.log("Error: ", error))
         .finally(()=>{
           this.setState({loading:false});
           this.props.history.push('/');

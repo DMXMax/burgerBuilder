@@ -65,7 +65,6 @@ export const auth= (email, password, isSignup)=>{
                 dispatch(checkAuthTimeout(response.data.expiresIn));
             })
             .catch(err=>{
-                console.log("BASE ERROR", err.response.data.error);
                 dispatch(authFail(err.response.data.error));
             })
     }
@@ -92,7 +91,7 @@ export const authCheckState = () =>{
                 const userId = localStorage.getItem('userId')
                 const vals = {}
                 vals["idToken"]=token;
-                vals["userId"]=userId;
+                vals["localId"]=userId;
                 dispatch(authSuccess(vals));
                 dispatch(checkAuthTimeout,(expirationDate.getTime() - new Date().getTime())/1000 )
             }
