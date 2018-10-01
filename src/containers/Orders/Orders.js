@@ -13,7 +13,7 @@ class Orders extends Component{
   }
 
   componentDidMount(){
-    this.props.onFetchOrders(this.props.authToken);
+    this.props.onFetchOrders(this.props.authToken, this.props.userId);
   }
   render(){
     return this.props.loading === true ? (<Spinner/>) :
@@ -28,7 +28,7 @@ class Orders extends Component{
 
 const mapDispatchToProps = dispatch =>{
   return {
-      onFetchOrders : (authToken)=> dispatch(actions.fetchOrders(authToken))
+      onFetchOrders : (authToken, userId)=> dispatch(actions.fetchOrders(authToken,userId))
   };
 };
 
@@ -37,6 +37,7 @@ const mapStateToProps = state => {
     orders: state.order.orders,
     loading: state.order.loading,
     authToken : state.auth.token,
+    userId : state.auth.userId,
   };
 };
 

@@ -16,6 +16,7 @@ const initialState = {
   count: 0,
   ingredients: null,
   error: false,
+  building: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -24,12 +25,12 @@ const reducer = (state = initialState, action) => {
     case actionType.INGREDIENT_ADD:
       updatedIngredient = { [action.ingredient]: state.ingredients[action.ingredient] + 1 }
       ingredients = updateObject(state.ingredients, updatedIngredient);
-      state = updateObject(state, { ingredients, ...updatePurchaseState(ingredients) });
+      state = updateObject(state, { ingredients, ...updatePurchaseState(ingredients), building:true });
       break;
     case actionType.INGREDIENT_REMOVE:
       updatedIngredient = { [action.ingredient]: Math.max(0, state.ingredients[action.ingredient] - 1) }
       ingredients = updateObject(state.ingredients, updatedIngredient);
-      state = updateObject(state, { ingredients, ...updatePurchaseState(ingredients) });
+      state = updateObject(state, { ingredients, ...updatePurchaseState(ingredients), building:true });
       break;
     case actionType.INGREDIENTS_SET:
       state = {
@@ -37,6 +38,7 @@ const reducer = (state = initialState, action) => {
         ingredients: action.ingredients,
         ...updatePurchaseState(action.ingredients),
         error: false,
+        building:false,
       };
       break;
     case actionType.FETCH_INGREDIENTS_FAILED:

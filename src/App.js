@@ -2,11 +2,17 @@ import React, { Component } from "react";
 import Layout from "./components/Layout/Layout";
 import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
 import Checkout from "./containers/Checkout/Checkout";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 import Orders from './containers/Orders/Orders';
 import Auth from './containers/Auth/Auth';
+import Logout from './containers/Auth/Logout';
+import { connect } from 'react-redux';
+import * as action from './store/actions/'; //index.js is implied
 
 class App extends Component {
+  componentDidMount(){
+    this.props.onTryAutoSignup();
+  }
   render() {
     return (
       <div>
@@ -14,8 +20,9 @@ class App extends Component {
           <Switch>
             <Route path="/auth" component={Auth}/>
             <Route path="/" exact component={BurgerBuilder} />
-            <Route path="/orders" exact component={Orders} />
+            <Route path="/orders" exact component={Orders} /> 
             <Route path="/checkout" component={Checkout} />
+            <Route path="/logout" component={Logout}/>
           </Switch>
         </Layout>
       </div>
@@ -23,4 +30,16 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state =>{
+  return {
+    isAuthenticated : state.auth.token !== null,
+  };
+}
+
+const mapDispatchToProps =dispatch =>{
+  return {
+    onTryAutoSignup: () => dispatch(action.authCheckState())
+  };
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
